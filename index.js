@@ -6,11 +6,6 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { MongoClient, ServerApiVersion } from 'mongodb';
 import 'dotenv/config';
-
-// const uri = 'mongodb+srv://whitepk86:CefM73F9kzH""%n@cluster0.xjpmyxh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
-// const uri = "mongodb+srv://whitepk86:<password>@cluster0.xjpmyxh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-
-// const uri = "mongodb+srv://whitepk86:JoeBiden354@cluster0.xjpmyxh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const uri = process.env.MONGO_DB_URI
 
 const typeDefs = `#graphql
@@ -29,12 +24,6 @@ const typeDefs = `#graphql
     books: [Book]
   }
 `;
-
-// const resolvers = {
-//     Query: {
-//         sayHi: () => 'Hello World'
-//     }
-// }
 
 const books = [
   {
@@ -86,7 +75,5 @@ run().catch(console.dir);
 const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },
 });
-
-// mongoose.coonnect
 
 console.log(`🚀  Server ready at: ${url}`);
