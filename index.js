@@ -2,7 +2,7 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import 'dotenv/config';
 import mongoose from 'mongoose'
-import Post from "./models/Post.js";
+import resolvers from "./graphql/resolvers/index.js";
 
 const uri = process.env.MONGO_DB_URI
 
@@ -18,19 +18,6 @@ const typeDefs = `#graphql
     posts: [Post]
   }
 `;
-
-const resolvers = {
-  Query: {
-    posts: async () => {
-      try {
-        const posts = await Post.find()
-        return posts;
-      } catch(err) {
-        throw new Error(err)
-      }
-    }
-  },
-};
 
 const server = new ApolloServer({typeDefs, resolvers});
 
