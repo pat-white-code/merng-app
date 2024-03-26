@@ -1,72 +1,48 @@
-// import { ApolloServer } from 'apollo-server';
-// import gql from 'graphql-tag'
-// const { ApolloServer } = require('apollo-server')
-// import gql from 'graphql-tag'
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { MongoClient, ServerApiVersion } from 'mongodb';
 import 'dotenv/config';
+import mongoose from 'mongoose'
+import Post from "./models/Post.js";
+
 const uri = process.env.MONGO_DB_URI
 
 const typeDefs = `#graphql
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
-
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
+  type Post {
+    id: ID!
+    body: String!
+    createdAt: String!
+    username: String!
   }
-
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
+  
   type Query {
-    books: [Book]
+    posts: [Post]
   }
 `;
 
-const books = [
-  {
-    title: "The Awakening",
-    author: "Kate Chopin",
-  },
-  {
-    title: "City of Glass",
-    author: "Paul Auster",
-  },
-];
-
-// Resolvers define how to fetch the types defined in your schema.
-// This resolver retrieves books from the "books" array above.
 const resolvers = {
   Query: {
-    books: () => books,
+    posts: async () => {
+      try {
+        const posts = await Post.find()
+        return posts;
+      } catch(err) {
+        throw new Error(err)
+      }
+    }
   },
 };
 
 const server = new ApolloServer({typeDefs, resolvers});
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
 
 async function run() {
   try {
-      // Connect the client to the server	(optional starting in v4.7)
-      await client.connect();
-      // Send a ping to confirm a successful connection
-      await client.db("admin").command({ ping: 1 });
+      await mongoose.connect(uri);
       console.log(
           "Pinged your deployment. You successfully connected to MongoDB!"
       ); 
-  } finally {
-      // Ensures that the client will close when you finish/error
-      await client.close();
+  } catch (err) {
+    console.log('err', err)
   }
 }
 
