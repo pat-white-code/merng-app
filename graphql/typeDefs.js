@@ -24,6 +24,6 @@ const typeDefs = `#graphql
     type Mutation {
         register(registerInput: RegisterInput): User!
     }
-`;
+`
 
 export default typeDefs
