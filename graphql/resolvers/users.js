@@ -1,8 +1,10 @@
-import User from '../../models/User.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import {} from 'dotenv'
 import { GraphQLError } from 'graphql'
+
+import User from '../../models/User.js'
+import { validateRegisterInput } from '../../util/validators.js'
 
 const usersResolvers = {
 	Mutation: {
@@ -10,7 +12,16 @@ const usersResolvers = {
 			_,
 			{ registerInput: { email, password, confirmPassword, username } }
 		) => {
-			password = await bcrypt.hash(password, 12)
+            const { errors, isValid } = validateRegisterInput({ email, password, confirmPassword, username })
+            
+            if(!isValid) {
+                throw new GraphQLError('User Input Error', { errors, extensions: {
+                    code: 'BAD_USER_INPUT',
+                    argumentName: 'userInput',
+                    errors
+                }, })
+            }
+            password = await bcrypt.hash(password, 12)
 
 			const existingUser = await User.findOne({ username })
 			if (existingUser) {
