@@ -6,6 +6,20 @@ import { GraphQLError } from 'graphql'
 import User from '../../models/User.js'
 import { validateRegisterInput } from '../../util/validators.js'
 
+const generateToken = user => {
+	const SECRET_KEY = process.env.SECRET_KEY
+	const token = jwt.sign(
+		{
+			id: user.id,
+			email: user.email,
+			username: user.username,
+		},
+		SECRET_KEY,
+		{ expiresIn: '1h' }
+	)
+	return token
+}
+
 const register = async (
 	_,
 	{ registerInput: { email, password, confirmPassword, username } }
@@ -47,18 +61,8 @@ const register = async (
 	})
 
 	const res = await user.save()
-
-	const SECRET_KEY = process.env.SECRET_KEY
-
-	const token = jwt.sign(
-		{
-			id: res.id,
-			email: res.email,
-			username: res.username,
-		},
-		SECRET_KEY,
-		{ expiresIn: '1h' }
-	)
+    
+    const token = generateToken(user)
 
 	return {
 		...res._doc,
@@ -68,52 +72,41 @@ const register = async (
 	}
 }
 
-const login = async (_, { loginInput: { username, password }}) => {
-    const res = await User.findOne({ username })
-    const foundUser = res._doc
+const login = async (_, { loginInput: { username, password } }) => {
+	const res = await User.findOne({ username })
+	const foundUser = res._doc
 
-    debugger
-
-    if (!foundUser) {
-        throw new GraphQLError('Username not found', {
+	if (!foundUser) {
+		throw new GraphQLError('Username not found', {
 			extensions: {
 				code: 'USER_NOT_FOUND',
 				argumentName: 'loginInput',
 			},
 		})
-    }
-    
-    const match = await bcrypt.compare(password, foundUser.password);
-    if(!match) {
-        throw new GraphQLError('Password is not correct', {
-            extensions: {
+	}
+
+	const match = await bcrypt.compare(password, foundUser.password)
+	if (!match) {
+		throw new GraphQLError('Password is not correct', {
+			extensions: {
 				code: 'INVALID_CREDENTIALS',
 				argumentName: 'loginInput',
 			},
-        })
-    }
-    if(match) {
-        const SECRET_KEY = process.env.SECRET_KEY
-        const token = jwt.sign(
-            {
-                id: foundUser.id,
-                email: foundUser.email,
-                username: foundUser.username,
-            },
-            SECRET_KEY,
-            { expiresIn: '1h' }
-        )
-        return {
-            ...foundUser,
-            token
-        }
-    }
+		})
+	}
+	if (match) {
+        const token = generateToken(foundUser)
+		return {
+			...foundUser,
+			token,
+		}
+	}
 }
 
 const usersResolvers = {
 	Mutation: {
 		register,
-        login,
+		login,
 	},
 }
 
