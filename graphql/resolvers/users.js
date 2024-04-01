@@ -73,10 +73,9 @@ const register = async (
 }
 
 const login = async (_, { loginInput: { username, password } }) => {
-	const res = await User.findOne({ username })
-	const foundUser = res._doc
+	const user = await User.findOne({ username })
 
-	if (!foundUser) {
+	if (!user) {
 		throw new GraphQLError('Username not found', {
 			extensions: {
 				code: 'USER_NOT_FOUND',
@@ -85,7 +84,7 @@ const login = async (_, { loginInput: { username, password } }) => {
 		})
 	}
 
-	const match = await bcrypt.compare(password, foundUser.password)
+	const match = bcrypt.compare(password, user.password)
 	if (!match) {
 		throw new GraphQLError('Password is not correct', {
 			extensions: {
@@ -95,9 +94,10 @@ const login = async (_, { loginInput: { username, password } }) => {
 		})
 	}
 	if (match) {
-        const token = generateToken(foundUser)
+        const token = generateToken(user)
 		return {
-			...foundUser,
+			...user._doc,
+            id: user._id,
 			token,
 		}
 	}
