@@ -10,6 +10,19 @@ const postsResolvers = {
 				throw new Error(err)
 			}
 		},
+		post: async (_, { postId }) => {
+			try {
+				const post = await Post.findById(postId)
+				debugger
+				if (post) {
+					return post
+				} else {
+					throw new Error('Post not found')
+				}
+			} catch (err) {
+				throw new Error(err)
+			}
+		}
 	},
 }
 

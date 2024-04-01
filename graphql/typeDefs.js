@@ -1,4 +1,14 @@
 const typeDefs = `#graphql
+    input RegisterInput {
+        username: String!
+        password: String!
+        confirmPassword: String!
+        email: String!
+    }
+    input LoginInput {
+        username: String!,
+        password: String!
+    }
     type Post {
         id: ID!
         body: String!
@@ -12,18 +22,9 @@ const typeDefs = `#graphql
         username: String!
         createdAt: String!
     }
-    input RegisterInput {
-        username: String!
-        password: String!
-        confirmPassword: String!
-        email: String!
-    }
-    input LoginInput {
-        username: String!,
-        password: String!
-    }
     type Query {
         posts: [Post]
+        post(postId: ID!): Post!
     }
     type Mutation {
         register(registerInput: RegisterInput): User!
