@@ -28,3 +28,16 @@ export const validateRegisterInput = ({
 
 	return { errors, isValid }
 }
+
+export const validateLoginInput = ({ username, password }) => {
+    const errors = {}
+    if (isEmpty(username)) {
+        errors.username = 'Username cannot be empty'
+    }
+    if (isEmpty(password)) {
+        errors.password = 'Password cannot be empty'
+    }
+
+    const isValid = Object.values(errors).length < 1
+    return { errors, isValid }
+}

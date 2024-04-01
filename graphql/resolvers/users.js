@@ -4,9 +4,12 @@ import {} from 'dotenv'
 import { GraphQLError } from 'graphql'
 
 import User from '../../models/User.js'
-import { validateRegisterInput } from '../../util/validators.js'
+import {
+	validateRegisterInput,
+	validateLoginInput,
+} from '../../util/validators.js'
 
-const generateToken = user => {
+const generateToken = (user) => {
 	const SECRET_KEY = process.env.SECRET_KEY
 	const token = jwt.sign(
 		{
@@ -61,8 +64,8 @@ const register = async (
 	})
 
 	const res = await user.save()
-    
-    const token = generateToken(user)
+
+	const token = generateToken(user)
 
 	return {
 		...res._doc,
@@ -73,6 +76,18 @@ const register = async (
 }
 
 const login = async (_, { loginInput: { username, password } }) => {
+	const { errors, isValid } = validateLoginInput({ username, password })
+
+	if (!isValid) {
+		throw new GraphQLError('Invalid User Input', {
+			extensions: {
+				errors,
+				code: 'INVALID_USER_INPUT',
+				argumentName: 'loginInput',
+			},
+		})
+	}
+
 	const user = await User.findOne({ username })
 
 	if (!user) {
@@ -94,10 +109,10 @@ const login = async (_, { loginInput: { username, password } }) => {
 		})
 	}
 	if (match) {
-        const token = generateToken(user)
+		const token = generateToken(user)
 		return {
 			...user._doc,
-            id: user._id,
+			id: user._id,
 			token,
 		}
 	}
