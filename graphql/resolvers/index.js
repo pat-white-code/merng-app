@@ -1,4 +1,4 @@
-import postsResolvers from './posts.js'
+import postsResolvers from './posts/index.js'
 import usersResolvers from './users.js'
 
 const resolvers = {
