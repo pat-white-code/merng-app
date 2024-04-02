@@ -33,6 +33,7 @@ const typeDefs = `#graphql
         register(registerInput: RegisterInput): User!
         login(loginInput: LoginInput): User!
         createPost(createPostInput: CreatePostInput): Post!
+        deletePost(postId: ID!): String
     }
 `
 
