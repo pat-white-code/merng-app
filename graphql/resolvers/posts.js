@@ -23,7 +23,7 @@ const postsResolvers = {
 			} catch (err) {
 				throw new Error(err)
 			}
-		}
+		},
 	},
 	Mutation: {
 		createPost: async (_, { createPostInput: { body } }, context) => {
@@ -32,12 +32,12 @@ const postsResolvers = {
 				body,
 				user: user.id,
 				username: user.username,
-				createdAt: new Date().toISOString()
+				createdAt: new Date().toISOString(),
 			})
 			const post = await newPost.save()
 			return post
-		}
-	}
+		},
+	},
 }
 
 export default postsResolvers

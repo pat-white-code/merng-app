@@ -27,9 +27,9 @@ async function run() {
 run().catch(console.dir)
 
 const { url } = await startStandaloneServer(server, {
-  context: async ({ req, res }) => ({
-    req,
-  }),
+	context: async ({ req, res }) => ({
+		req,
+	}),
 	listen: { port: 4000 },
 })
 

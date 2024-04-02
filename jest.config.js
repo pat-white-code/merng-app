@@ -1,5 +1,5 @@
 const config = {
-    transform: {}
+	transform: {},
 }
 
 export default config
