@@ -60,7 +60,7 @@ const register = async (
 		email,
 		password,
 		username,
-		createdAt: new Date(),
+		createdAt: new Date().toISOString(),
 	})
 
 	const res = await user.save()
