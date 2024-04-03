@@ -12,11 +12,28 @@ const typeDefs = `#graphql
     input CreatePostInput {
         body: String!
     }
+    input CreateCommentInput {
+        body: String!
+        postId: String!
+    }
+    type Comment {
+        id: ID!
+        body: String!
+        username: String!
+        createdAt: String!
+    }
+    type Like {
+        id: ID!
+        username: String!
+        createdAt: String!
+    }
     type Post {
         id: ID!
         body: String!
         createdAt: String!
         username: String!
+        comments: [Comment]!
+        likes: [Like]!
     }
     type User {
         id: ID!
@@ -34,6 +51,7 @@ const typeDefs = `#graphql
         login(loginInput: LoginInput): User!
         createPost(createPostInput: CreatePostInput): Post!
         deletePost(postId: ID!): String
+        createComment(createCommentInput: CreateCommentInput): Post
     }
 `
 
