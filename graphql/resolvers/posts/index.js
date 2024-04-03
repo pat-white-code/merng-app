@@ -2,6 +2,7 @@ import getPosts from './get-posts.js'
 import getPost from './get-post.js'
 import createPost from './create-post.js'
 import deletePost from './delete-post.js'
+import likePost from './like-post.js'
 
 const postsResolvers = {
 	Query: {
@@ -11,6 +12,7 @@ const postsResolvers = {
 	Mutation: {
 		createPost,
 		deletePost,
+		likePost
 	},
 }
 

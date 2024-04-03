@@ -53,6 +53,7 @@ const typeDefs = `#graphql
         deletePost(postId: ID!): String
         createComment(createCommentInput: CreateCommentInput): Post!
         deleteComment(commentId: ID!, postId: ID!): Post!
+        likePost(postId: ID!): Post!
     }
 `
 
