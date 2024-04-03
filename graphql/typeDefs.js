@@ -51,7 +51,8 @@ const typeDefs = `#graphql
         login(loginInput: LoginInput): User!
         createPost(createPostInput: CreatePostInput): Post!
         deletePost(postId: ID!): String
-        createComment(createCommentInput: CreateCommentInput): Post
+        createComment(createCommentInput: CreateCommentInput): Post!
+        deleteComment(commentId: ID!, postId: ID!): Post!
     }
 `
 

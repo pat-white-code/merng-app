@@ -8,7 +8,6 @@ const createComment = async (
 	{ createCommentInput: { body, postId } },
 	context
 ) => {
-    debugger
 	if (isEmpty(body)) {
 		throw new GraphQLError('Body must not be empty')
 	}
@@ -25,8 +24,8 @@ const createComment = async (
 		}
 
 		post.comments.push(comment)
-        await post.save()
-        return post
+		await post.save()
+		return post
 	} else {
 		throw new GraphQLError('Post not found')
 	}

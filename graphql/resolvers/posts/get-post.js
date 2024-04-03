@@ -4,7 +4,6 @@ import Post from '../../../models/Post.js'
 const getPost = async (_, { postId }) => {
 	try {
 		const post = await Post.findById(postId)
-		debugger
 		if (post) {
 			return post
 		} else {

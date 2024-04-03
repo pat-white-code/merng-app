@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken'
 const SECRET_KEY = process.env.SECRET_KEY
 
 const checkAuth = (context) => {
-	debugger
 	const authHeader = context.req.headers.authorization
 	if (authHeader) {
 		const token = authHeader.split('Bearer ')[1]
