@@ -11,5 +11,8 @@ const resolvers = {
 		...postsResolvers.Mutation,
 		...commentsResolvers.Mutation,
 	},
+	Post: {
+		...postsResolvers.Post
+	}
 }
 export default resolvers

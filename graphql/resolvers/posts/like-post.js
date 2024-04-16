@@ -10,8 +10,6 @@ const likePost = async (_, { postId }, context) => {
 		throw new GraphQLError('Post not found')
 	}
 
-    debugger
-
 	const likedIndex = post.likes.findIndex((like) => like.username === username)
 	const isLiked = likedIndex !== -1
 

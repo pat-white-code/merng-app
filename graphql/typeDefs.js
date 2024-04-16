@@ -34,6 +34,8 @@ const typeDefs = `#graphql
         username: String!
         comments: [Comment]!
         likes: [Like]!
+        user: User
+        userId: String
     }
     type User {
         id: ID!
