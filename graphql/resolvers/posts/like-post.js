@@ -20,7 +20,7 @@ const likePost = async (_, { postId }, context) => {
 	} else {
 		const like = {
 			username,
-			createdAt: new Date().toISOString(),
+			createdAt: new Date().toDateString(),
 		}
 		post.likes.push(like)
 		await post.save()
