@@ -4,6 +4,7 @@ import createPost from './create-post.js'
 import deletePost from './delete-post.js'
 import likePost from './like-post.js'
 import getPostAuthor from './get-post-user.js'
+import getIsLiked from './get-is-liked.js'
 
 const postsResolvers = {
 	Query: {
@@ -17,7 +18,9 @@ const postsResolvers = {
 	},
 	Post: {
 		userId: parent => parent.user,
-		user: getPostAuthor
+		user: getPostAuthor,
+		totalLikes: parent => parent.likes.length,
+		isLiked: getIsLiked
 	}
 }
 

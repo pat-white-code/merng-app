@@ -8,7 +8,7 @@ const createPost = async (_, { createPostInput: { body } }, context) => {
 		user: user.id,
 		username: user.username,
 		userId: user.id,
-		createdAt: new Date().toDateString(),
+		createdAt: new Date().toISOString(),
 	})
 	const post = await newPost.save()
 	return post

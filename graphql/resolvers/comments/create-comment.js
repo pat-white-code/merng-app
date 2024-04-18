@@ -20,7 +20,7 @@ const createComment = async (
 		const comment = {
 			body,
 			username,
-			createdAt: new Date().toDateString(),
+			createdAt: new Date().toISOString(),
 		}
 
 		post.comments.push(comment)

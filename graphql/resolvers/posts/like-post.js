@@ -3,7 +3,9 @@ import Post from '../../../models/Post.js'
 import checkAuth from '../../../util/auth.js'
 
 const likePost = async (_, { postId }, context) => {
-	const { username } = checkAuth(context)
+	// debugger
+	// debugger
+	const { username, id } = checkAuth(context)
 	const post = await Post.findById(postId)
 
 	if (!post) {
@@ -20,7 +22,8 @@ const likePost = async (_, { postId }, context) => {
 	} else {
 		const like = {
 			username,
-			createdAt: new Date().toDateString(),
+			userId: id,
+			createdAt: new Date().toISOString(),
 		}
 		post.likes.push(like)
 		await post.save()
