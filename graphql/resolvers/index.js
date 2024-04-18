@@ -13,6 +13,9 @@ const resolvers = {
 	},
 	Post: {
 		...postsResolvers.Post
+	},
+	Comment: {
+		...postsResolvers.Comment
 	}
 }
 export default resolvers

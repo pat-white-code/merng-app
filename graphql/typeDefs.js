@@ -21,6 +21,7 @@ const typeDefs = `#graphql
         body: String!
         username: String!
         createdAt: String!
+        user: User
     }
     type Like {
         id: ID!
@@ -39,11 +40,12 @@ const typeDefs = `#graphql
         userId: String
         totalLikes: Int!
         isLiked: Boolean!
+        totalComments: Int!
     }
     type User {
         id: ID!
         email: String!
-        token: String!
+        token: String
         username: String!
         createdAt: String!
     }

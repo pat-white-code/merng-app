@@ -12,7 +12,7 @@ const createComment = async (
 		throw new GraphQLError('Body must not be empty')
 	}
 
-	const { username } = checkAuth(context)
+	const { username, id } = checkAuth(context)
 
 	const post = await Post.findById(postId)
 
@@ -20,6 +20,7 @@ const createComment = async (
 		const comment = {
 			body,
 			username,
+			user: id,
 			createdAt: new Date().toISOString(),
 		}
 
