@@ -9,7 +9,6 @@ import User from '../../../models/User.js'
 import { GraphQLError } from 'graphql'
 
 const getCommentAuthor = async (parent) => {
-	debugger
 	try {
 		const userId = parent.user
 		const user = await User.findById(userId)
